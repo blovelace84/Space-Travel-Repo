@@ -5,7 +5,8 @@ const ParallaxSection = () => {
     return(
         <Parallax bgImage={spaceBackground} strength={500}>
             <div 
-            style={{ height: "500px", 
+            style={{
+            height: "500px", 
             display: "flex", 
             alignItems: "center", 
             justifyContent: "center", 
