@@ -48,7 +48,7 @@ function BookingForm() {
             label="Select Planet"
             onChange={(e) => setSelectedPlanet(e.target.value)}
           >
-            {planets.map((planet) => (
+            {Array.isArray(planets) && planets.map((planet) => (
               <MenuItem key={planet.id} value={planet.id}>
                 {planet.name}
               </MenuItem>
