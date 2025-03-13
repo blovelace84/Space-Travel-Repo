@@ -7,7 +7,7 @@ function PlanetList() {
 
   useEffect(() => {
     axios
-      .get('/planets')
+      .get('')
       .then((reponse) => {
         console.log(reponse.data);
         setPlanets(reponse.data);
