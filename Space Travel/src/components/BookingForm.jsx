@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FormControl, InputLabel, Select, MenuItem, TextField, Button } from '@mui/material';
+import { supabase } from '../supabaseClient';
 
 function BookingForm() {
   const [planets, setPlanets] = useState([]);
@@ -16,21 +17,23 @@ function BookingForm() {
       .catch((error) => console.error('Error fetching planets:', error));
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios.post('/bookings', {
-      planet_id: selectedPlanet,
-      departure_date: departureDate,
-    })
-      .then(() => {
-        setBookingSuccess(true);
-        setSelectedPlanet('');
-        setDepartureDate('');
-      })
-      .catch((error) => {
-        console.error('Error creating booking:', error);
-        setBookingSuccess(false);
+    try{
+      const { error } = await supabase.from('bookings').insert({
+        planet_id: selectedPlanet,
+        departureDate: departureDate,
       });
+      if(error){
+       throw error;
+      }
+      setBookingSuccess(true);
+      setSelectedPlanet('');
+      setDepartureDate('');
+    }catch (err){
+      console.error('Error creating booking:', err);
+      setBookingSuccess(false);
+    }
   };
 
   return (
