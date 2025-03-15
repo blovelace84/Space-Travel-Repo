@@ -1,6 +1,7 @@
 import React from "react";
 import BookingList from "../components/BookingList";
 
+
 const Bookings = () => {
     return(
         <div>

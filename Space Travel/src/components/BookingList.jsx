@@ -1,21 +1,40 @@
-// src/components/BookingList.js
+// frontend/src/components/BookingList.js
 
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { supabase } from '../supabaseClient';
 
 function BookingList() {
   const [bookings, setBookings] = useState([]);
   const [planets, setPlanets] = useState([]);
 
   useEffect(() => {
-    axios.get('/bookings')
-      .then((response) => setBookings(response.data))
-      .catch((error) => console.error('Error fetching bookings:', error));
+    const fetchBookings = async () => {
+      try {
+        const { data, error } = await supabase.from('bookings').select('*');
+        if (error) {
+          throw error;
+        }
+        setBookings(data);
+      } catch (err) {
+        console.error('Error fetching bookings:', err);
+      }
+    };
 
-    axios.get('/planets')
-      .then((response) => setPlanets(response.data))
-      .catch((error) => console.error('Error fetching planets:', error));
+    const fetchPlanets = async () => {
+      try {
+        const { data, error } = await supabase.from('planets').select('id, name');
+        if (error) {
+          throw error;
+        }
+        setPlanets(data);
+      } catch (err) {
+        console.error('Error fetching planets:', err);
+      }
+    };
+
+    fetchBookings();
+    fetchPlanets();
 
   }, []);
 
