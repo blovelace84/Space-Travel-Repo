@@ -13,7 +13,9 @@ function PlanetList() {
       setLoading(true);
       setError(null);
       try{
+        console.log('Fetching Planets...');
         const { data, error } = await supabase.from('planets').select("*");
+        console.log('Supabase response:', data, error);
         if(error){
           throw error;
         }
@@ -30,7 +32,6 @@ function PlanetList() {
 
   return (
     <div>
-      <h1>Planets</h1>
         {Array.isArray(planets) && planets.map((planet) => (
             <PlanetCard key={planet.id} planet={planet} />
         ))}
